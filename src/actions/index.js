@@ -8,6 +8,7 @@ import {
   EDIT_STREAM,
 } from './types';
 import axiosStreams from '../apis/streams';
+import history from '../history';
 
 export const signIn = userId => {
   return {
@@ -22,13 +23,13 @@ export const signOut = () => {
   };
 };
 
-export const createStreams = formValues => async (dispatch, getState) => {
+export const createStream = formValues => async (dispatch, getState) => {
   const { userId } = getState().auth;
   const { data } = await axiosStreams.post('/streams', {
     ...formValues,
     userId,
   });
-
+  history.push('/');
   dispatch({
     type: CREATE_STREAM,
     payload: data,
@@ -63,8 +64,8 @@ export const deleteStream = id => async dispatch => {
 };
 
 export const editStream = (id, formValues = {}) => async dispatch => {
-  const { data } = await axiosStreams.put(`/streams/${id}`, formValues);
-
+  const { data } = await axiosStreams.patch(`/streams/${id}`, formValues);
+  history.push('/');
   dispatch({
     type: EDIT_STREAM,
     payload: data,
