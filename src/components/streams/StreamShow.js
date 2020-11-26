@@ -9,19 +9,19 @@ class StreamShow extends React.Component {
     fetchStream(match.params.id);
   }
 
-  renderStream() {
+  render() {
     const { selectedStream } = this.props;
 
-    return selectedStream ? (
-      <div>
-        {selectedStream.title}
-        {selectedStream.description}
-      </div>
-    ) : null;
-  }
+    if (!selectedStream) {
+      return <div>Loading....</div>;
+    }
 
-  render() {
-    return <div>{this.renderStream()}</div>;
+    return (
+      <div>
+        <h1>{selectedStream.title}</h1>
+        <h5>{selectedStream.description}</h5>
+      </div>
+    );
   }
 }
 
@@ -29,4 +29,6 @@ const mapStateToProps = (state, ownProps) => {
   return { selectedStream: state.streams[ownProps.match.params.id] };
 };
 
-export default connect(mapStateToProps, { fetchStream })(StreamShow);
+export default connect(mapStateToProps, {
+  fetchStream,
+})(StreamShow);
