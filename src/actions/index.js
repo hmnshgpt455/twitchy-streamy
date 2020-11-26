@@ -56,7 +56,7 @@ export const fetchStream = id => async dispatch => {
 
 export const deleteStream = id => async dispatch => {
   await axiosStreams.delete(`/streams/${id}`);
-
+  history.push('/');
   dispatch({
     type: DELETE_STREAM,
     payload: id,
